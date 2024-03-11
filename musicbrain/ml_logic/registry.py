@@ -36,7 +36,7 @@ def load_model(stage="Production") -> LogisticRegression:
 
         print(Fore.BLUE + f"\nLoad latest model from disk..." + Style.RESET_ALL)
 
-        latest_model = joblib.load_model(most_recent_model_path_on_disk)
+        latest_model = joblib.load(most_recent_model_path_on_disk)
 
         print("✅ Model loaded from local disk")
 
@@ -141,3 +141,6 @@ def create_folder_if_not_exist(folder_path):
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
         print(f"Folder '{folder_path}' created.")
+        
+
+load_model()

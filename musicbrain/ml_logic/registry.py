@@ -2,7 +2,7 @@ import glob
 import os
 import time
 
-from backend.params import *
+from musicbrain.params import *
 
 from colorama import Fore, Style
 
@@ -20,14 +20,13 @@ def load_model(stage="Production") -> LogisticRegression:
     - or from MLFLOW (by "stage") if MODEL_TARGET=='mlflow' --> for unit 03 only
 
     Return None (but do not Raise) if no model is found
-
     """
 
     if MODEL_TARGET == "local":
         print(Fore.BLUE + f"\nLoad latest model from local registry..." + Style.RESET_ALL)
 
         # Get the latest model version name by the timestamp on disk
-        local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
+        local_model_directory = os.path.join(MODEL_LOCAL_REGISTRY_PATH)
         local_model_paths = glob.glob(f"{local_model_directory}/*")
 
         if not local_model_paths:
@@ -52,7 +51,7 @@ def load_model(stage="Production") -> LogisticRegression:
 
         try:
             latest_blob = max(blobs, key=lambda x: x.updated)
-            latest_model_path_to_save = os.path.join(LOCAL_REGISTRY_PATH, latest_blob.name)
+            latest_model_path_to_save = os.path.join(MODEL_LOCAL_REGISTRY_PATH, latest_blob.name)
             latest_blob.download_to_filename(latest_model_path_to_save)
 
             latest_model = joblib.load_model(latest_model_path_to_save)
@@ -88,6 +87,7 @@ def load_model(stage="Production") -> LogisticRegression:
         print("✅ Model loaded from MLflow")
         return model
     else:
+        print("No Model found")
         return None
 
 def save_model(model: LogisticRegression = None) -> None:
@@ -104,8 +104,9 @@ def save_model(model: LogisticRegression = None) -> None:
     timestamp = time.strftime("%Y%m%d-%H%M%S")
 
     # Save model locally
-    model_path = os.path.join(LOCAL_REGISTRY_PATH, "models", f"{timestamp}.joblib")
-    model.save(model_path)
+    create_folder_if_not_exist(MODEL_LOCAL_REGISTRY_PATH)
+    model_path = os.path.join(MODEL_LOCAL_REGISTRY_PATH, f"{timestamp}.joblib")
+    joblib.dump(model, model_path)
 
     print("✅ Model saved locally")
 
@@ -134,3 +135,9 @@ def save_model(model: LogisticRegression = None) -> None:
         return None
 
     return None
+
+
+def create_folder_if_not_exist(folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+        print(f"Folder '{folder_path}' created.")

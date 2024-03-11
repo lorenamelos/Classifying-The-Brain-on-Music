@@ -7,6 +7,8 @@ BUCKET_NAME = os.environ.get("BUCKET_NAME")
 
 MLFLOW_MODEL_NAME = os.environ.get("MLFLOW_MODEL_NAME")
 MLFLOW_TRACKING_URI = os.environ.get("MLFLOW_TRACKING_URI")
-##################  CONSTANTS  #####################
-LOCAL_REGISTRY_PATH =  os.path.join(os.path.expanduser('~'), ".lewagon", "final-project", "training_outputs")
+
+##################  CONSTANTS  #####################*
+LOCAL_PROJECT_PATH = os.path.join(os.path.expanduser('~'), ".lewagon", "final-project")
+MODEL_LOCAL_REGISTRY_PATH =  os.path.join(LOCAL_PROJECT_PATH, "training_outputs", "model")
 

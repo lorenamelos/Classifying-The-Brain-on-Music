@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 import pandas as pd
-from backend.ml_logic.registry import load_model
-from backend.ml_logic.preprocessor import preprocess_features
+from musicbrain.ml_logic.registry import load_model
+from musicbrain.ml_logic.preprocessor import preprocess_features
 
 app = FastAPI()
 app.state.model = load_model()

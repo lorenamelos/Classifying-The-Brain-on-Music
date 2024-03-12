@@ -20,6 +20,7 @@ app.add_middleware(
 
 @app.get("/predict")
 async def predict(file: UploadFile = File(None), json_data: dict = None):
+    
     if file and file.filename.endswith((".csv")):
         contents = await file.read()
         
@@ -44,7 +45,3 @@ async def predict(file: UploadFile = File(None), json_data: dict = None):
         
     else:
         return {"error": "No valid input provided"}
-
-@app.get("/")
-def root():
-    return {"greeting": "Hello"}

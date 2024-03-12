@@ -1,3 +1,4 @@
+import io
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -19,18 +20,17 @@ app.add_middleware(
 
 @app.get("/predict")
 async def predict(file: UploadFile = File(None), json_data: dict = None):
-    
     if file and file.filename.endswith((".csv")):
         contents = await file.read()
+        
         try:
-            X_pred = pd.read_csv(contents)
+            X_pred = pd.read_csv(io.BytesIO(contents))
             y_pred = app.state.model.predict(X_pred)
             
             result = int_to_music_label(y_pred)
             return {"music_labels": result}
-        
         except Exception as e:
-            return {"error": "Invalid CSV file"}
+            return {"error": f"Invalid CSV file, exception '{e}'"}
 
     elif json_data:
         X_pred = pd.read_json(json_data)

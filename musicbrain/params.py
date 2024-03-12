@@ -10,5 +10,5 @@ MLFLOW_TRACKING_URI = os.environ.get("MLFLOW_TRACKING_URI")
 
 ##################  CONSTANTS  #####################*
 LOCAL_PROJECT_PATH = os.path.join(os.path.expanduser('~'), ".lewagon", "final-project")
-MODEL_LOCAL_REGISTRY_PATH =  os.path.join(LOCAL_PROJECT_PATH, "training_outputs", "model")
+MODEL_LOCAL_REGISTRY_PATH =  os.path.join(LOCAL_PROJECT_PATH, "training_outputs")
 

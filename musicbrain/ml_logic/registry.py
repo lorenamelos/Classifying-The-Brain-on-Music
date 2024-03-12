@@ -21,12 +21,12 @@ def load_model(stage="Production") -> LogisticRegression:
 
     Return None (but do not Raise) if no model is found
     """
-
+    
     if MODEL_TARGET == "local":
         print(Fore.BLUE + f"\nLoad latest model from local registry..." + Style.RESET_ALL)
 
         # Get the latest model version name by the timestamp on disk
-        local_model_directory = os.path.join(MODEL_LOCAL_REGISTRY_PATH)
+        local_model_directory = os.path.join(MODEL_LOCAL_REGISTRY_PATH, "models")
         local_model_paths = glob.glob(f"{local_model_directory}/*")
 
         if not local_model_paths:
@@ -47,21 +47,27 @@ def load_model(stage="Production") -> LogisticRegression:
         print(Fore.BLUE + f"\nLoad latest model from GCS..." + Style.RESET_ALL)
 
         client = storage.Client()
-        blobs = list(client.get_bucket(BUCKET_NAME).list_blobs(prefix="model"))
-
+        bucket = client.get_bucket(BUCKET_NAME)
+        blobs = bucket.list_blobs(prefix="models/")
+        
         try:
             latest_blob = max(blobs, key=lambda x: x.updated)
             latest_model_path_to_save = os.path.join(MODEL_LOCAL_REGISTRY_PATH, latest_blob.name)
-            latest_blob.download_to_filename(latest_model_path_to_save)
+            
+            latest_model = None
+            if os.path.exists(latest_model_path_to_save):
+                print("Latest model already exists locally. Returning...")
+                latest_model = joblib.load(latest_model_path_to_save)
 
-            latest_model = joblib.load_model(latest_model_path_to_save)
-
-            print("✅ Latest model downloaded from cloud storage")
-
+            else:
+                latest_blob.download_to_filename(latest_model_path_to_save)
+                latest_model = joblib.load(latest_model_path_to_save)
+                print("✅ Latest model downloaded from cloud storage")
+                
             return latest_model
-        except:
-            print(f"\n❌ No model found in GCS bucket {BUCKET_NAME}")
-
+        
+        except Exception as e:
+            print(f"\n❌ No model found in GCS bucket {BUCKET_NAME}/n exception: ${e}")
             return None
 
     elif MODEL_TARGET == "mlflow":
@@ -104,12 +110,14 @@ def save_model(model: LogisticRegression = None) -> None:
     timestamp = time.strftime("%Y%m%d-%H%M%S")
 
     # Save model locally
-    create_folder_if_not_exist(MODEL_LOCAL_REGISTRY_PATH)
-    model_path = os.path.join(MODEL_LOCAL_REGISTRY_PATH, f"{timestamp}.joblib")
+    path = os.path.join(MODEL_LOCAL_REGISTRY_PATH, "models")
+    create_folder_if_not_exist(path)
+    
+    model_path = os.path.join(path, f"{timestamp}.joblib")
     joblib.dump(model, model_path)
 
     print("✅ Model saved locally")
-
+    
     if MODEL_TARGET == "gcs":
         # 🎁 We give you this piece of code as a gift. Please read it carefully! Add a breakpoint if needed!
 
@@ -141,6 +149,3 @@ def create_folder_if_not_exist(folder_path):
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
         print(f"Folder '{folder_path}' created.")
-        
-
-load_model()

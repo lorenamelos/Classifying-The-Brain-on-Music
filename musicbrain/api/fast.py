@@ -33,12 +33,15 @@ async def predict(file: UploadFile = File(None), json_data: dict = None):
             return {"error": f"Invalid CSV file, exception '{e}'"}
 
     elif json_data:
-        X_pred = pd.read_json(json_data)
-        y_pred = app.state.model.predict(X_pred)
+        try:
+            X_pred = pd.read_json(json_data)
+            y_pred = app.state.model.predict(X_pred)
+            
+            result = int_to_music_label(y_pred)
+            return {"music_labels": result}
+        except Exception as e:
+            return {"error": f"Invalid JSON, exception '{e}'"}
         
-        result = int_to_music_label(y_pred)
-        return {"music_labels": result}
-    
     else:
         return {"error": "No valid input provided"}
 

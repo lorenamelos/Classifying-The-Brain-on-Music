@@ -50,6 +50,9 @@ def load_model(stage="Production") -> LogisticRegression:
         bucket = client.get_bucket(BUCKET_NAME)
         blobs = bucket.list_blobs(prefix="models/")
         
+        model_path_folder = os.path.join(MODEL_LOCAL_REGISTRY_PATH, "models")
+        create_folder_if_not_exist(model_path_folder)
+        
         try:
             latest_blob = max(blobs, key=lambda x: x.updated)
             latest_model_path_to_save = os.path.join(MODEL_LOCAL_REGISTRY_PATH, latest_blob.name)
@@ -67,7 +70,7 @@ def load_model(stage="Production") -> LogisticRegression:
             return latest_model
         
         except Exception as e:
-            print(f"\n❌ No model found in GCS bucket {BUCKET_NAME}/n exception: ${e}")
+            print(f"\n❌ No model found in GCS bucket {BUCKET_NAME} /n exception: ${e}")
             return None
 
     elif MODEL_TARGET == "mlflow":
@@ -110,10 +113,10 @@ def save_model(model: LogisticRegression = None) -> None:
     timestamp = time.strftime("%Y%m%d-%H%M%S")
 
     # Save model locally
-    path = os.path.join(MODEL_LOCAL_REGISTRY_PATH, "models")
-    create_folder_if_not_exist(path)
+    model_path_folder = os.path.join(MODEL_LOCAL_REGISTRY_PATH, "models")
+    create_folder_if_not_exist(model_path_folder)
     
-    model_path = os.path.join(path, f"{timestamp}.joblib")
+    model_path = os.path.join(model_path_folder, f"{timestamp}.joblib")
     joblib.dump(model, model_path)
 
     print("✅ Model saved locally")

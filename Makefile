@@ -11,3 +11,8 @@ reinstall_package: ## Reinstall the package
 run_api: ## Run the API
 	uvicorn musicbrain.api.fast:app --reload
 
+docker_build:
+	docker build -f ./musicbrain/Dockerfile . -t musicbrain
+
+docker_run:
+	docker run --env-file="./.env" -p 8000:8000 musicbrain 

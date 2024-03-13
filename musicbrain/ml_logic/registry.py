@@ -51,7 +51,7 @@ def load_model(stage="Production") -> LogisticRegression:
                 print(":marca_de_verificação_branca: Latest model downloaded from cloud storage")
             return latest_model
         except Exception as e:
-            print(f"\n:x_vermelho: No model found in GCS bucket {BUCKET_NAME} /n exception: ${e}")
+            print(f"\n❌ No model found in GCS bucket {BUCKET_NAME} /n exception: ${e}")
             return None
     elif MODEL_TARGET == "mlflow":
         print(Fore.BLUE + f"\nLoad [{stage}] model from MLflow..." + Style.RESET_ALL)
@@ -85,6 +85,7 @@ def save_model(model: LogisticRegression = None) -> None:
     # Save model locally
     model_path_folder = os.path.join(MODEL_LOCAL_REGISTRY_PATH, "models")
     create_folder_if_not_exist(model_path_folder)
+
     model_path = os.path.join(model_path_folder, f"{timestamp}.joblib")
     joblib.dump(model, model_path)
     print(":marca_de_verificação_branca: Model saved locally")

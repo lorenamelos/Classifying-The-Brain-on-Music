@@ -2,3 +2,7 @@
 streamlit==1.24.1
 pandas
 numpy
+plotly.express
+requests
+time
+json

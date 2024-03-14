@@ -20,35 +20,35 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/predict/json")
+@app.post("/predict/json")
 async def predict(data: dict = None):
     if data:
         try:
             X_pred = pd.DataFrame(data)
             y_pred = app.state.model.predict(X_pred)
-            
+
             result = int_to_music_label(y_pred)
             return {"music_labels": result}
         except Exception as e:
             return {"error": f"Invalid JSON, exception '{e}'"}
-        
+
     else:
         return {"error": "No valid input provided"}
 
-@app.get("/predict/csv")
+@app.post("/predict/csv")
 async def predict(file: UploadFile = File(None)):
-    
-    if file and file.filename.endswith((".csv")):
-        contents = await file.read()
-        
-        try:
-            X_pred = pd.read_csv(io.BytesIO(contents))
-            y_pred = app.state.model.predict(X_pred)
-            
-            result = int_to_music_label(y_pred)
-            return {"music_labels": result}
-        except Exception as e:
-            return {"error": f"Invalid CSV file, exception '{e}'"}
-  
-    else:
-        return {"error": "No valid input provided"}
+
+    #if file and file.filename.endswith((".csv")):
+    contents = await file.read()
+
+    try:
+        X_pred = pd.read_csv(io.BytesIO(contents))
+        y_pred = app.state.model.predict(X_pred)
+
+        result = int_to_music_label(y_pred)
+        return {"music_labels": result}
+    except Exception as e:
+        return {"error": f"Invalid CSV file, exception '{e}'"}
+
+    #else:
+        #return {"error": "No valid input provided"}

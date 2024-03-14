@@ -9,7 +9,7 @@ import numpy as np
 
 # Define the URL of your Fast API
 
-API_URL = 'http://127.0.0.1:8000/predict'
+API_URL = "http://127.0.0.1:8000/predict/csv"
 
 
 # Create the Streamlit app
@@ -35,17 +35,20 @@ def main():
 
             # Function to make prediction using the API
             def make_prediction(input_data):
-                # Convert NumPy array to list
-                input_data_list = input_data.tolist()
+                # # Convert NumPy array to list
+                # input_data_list = input_data.tolist()
                 # Send the request with JSON serializable data
-                response = requests.post(API_URL, json={'data': input_data_list})
+
+                response = requests.request("POST", API_URL,files={"file" : uploaded_file.getvalue()})
+
+                #response = requests.post(API_URL, json={'data': input_data})
                 if response.status_code == 200:
-                    return response.json()['prediction']
+                    return response.json()
                 else:
                     return None
 
             # Make prediction using the API
-            prediction = make_prediction(df.values)
+            prediction = make_prediction(uploaded_file)
 
             # Update progress bar
             progress_bar.progress(100)

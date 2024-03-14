@@ -35,8 +35,6 @@ def main():
 
             # Function to make prediction using the API
             def make_prediction(input_data):
-                # # Convert NumPy array to list
-                # input_data_list = input_data.tolist()
                 # Send the request with JSON serializable data
 
                 response = requests.request("POST", API_URL,files={"file" : uploaded_file.getvalue()})
@@ -55,10 +53,17 @@ def main():
 
             # Create a DataFrame with prediction results
             if prediction:
-                prediction_df = pd.DataFrame({'prediction': prediction})
+                # Extract the list of predictions
+                predictions_list = prediction['music_labels']
+
+                prediction_df = pd.DataFrame({'prediction': predictions_list}, index=range(1, len(predictions_list) + 1))
+
+                # Add an index to the DataFrame
+                prediction_df.index = range(1, len(prediction_df) + 1)
+
                 # Display the prediction results DataFrame
                 st.write('Prediction Results:')
-                st.dataframe(prediction_df, height=200, width=300)  # Set the height and width for the prediction results DataFrame
+                st.table(prediction_df)  # Set the height and width for the prediction results DataFrame
 
 if __name__ == '__main__':
     main()

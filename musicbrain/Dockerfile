@@ -2,7 +2,7 @@ FROM python:3.11.8-slim-bullseye
 
 COPY musicbrain /musicbrain
 
-COPY requirements.txt /requirements.txt
+COPY requirements_backend.txt /requirements.txt
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt

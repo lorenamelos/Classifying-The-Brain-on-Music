@@ -8,8 +8,11 @@ reinstall_package: ## Reinstall the package
 	@pip uninstall -y musicbrain || :
 	@pip install -e .
 
-run_api: ## Run the API
+run_backend: ## Run the API
 	uvicorn musicbrain.api.fast:app --reload
+
+run_frontend: ## Run the API
+	streamlit run ./musicbrain-front/userinterface.py
 
 docker_build:
 	docker build -f ./musicbrain/Dockerfile . -t musicbrain

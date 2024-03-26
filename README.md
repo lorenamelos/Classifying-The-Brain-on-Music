@@ -1,6 +1,6 @@
-# Le Wagon AI Bootcamp Final Project: Classifying The Brain on Music
+# 🧠 Classifying The Brain on Music: Le Wagon AI Bootcamp Final Project
 
-This repository contains the final project for the Le Wagon Data Science & AI Bootcamp. The project demonstrates the application of AI and machine learning techniques to solve a real-world problem.
+This repository contains the final project for the Le Wagon Data Science & AI Bootcamp. The project demonstrates the application of AI and machine learning techniques to solve a real-world problem related to **multi-classification** problem. 
 
 ## Project Description
 

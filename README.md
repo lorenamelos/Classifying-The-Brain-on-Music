@@ -1,6 +1,6 @@
 # Le Wagon AI Bootcamp Final Project: Classifying The Brain on Music
 
-This repository contains the final project for the Le Wagon AI Bootcamp. The project demonstrates the application of AI and machine learning techniques to solve a real-world problem.
+This repository contains the final project for the Le Wagon Data Science & AI Bootcamp. The project demonstrates the application of AI and machine learning techniques to solve a real-world problem.
 
 ## Project Description
 
@@ -10,7 +10,8 @@ There are 22036 features in each brain image, corresponding to blood-oxygenation
 
 The testing data (test.csv) consists of 40 event-related brain images corresponding to novel 6-second music clips in the five genres. The test data is in randomized order with no labels. You must predict, using only the given brain images, the correct genre labels (0-4) for the 40 test trials.
 
-For more details regarding the tasks, including the dataset download, please refer to the information provided in this Google Colab link.
+For more details regarding the tasks, including the dataset download, please refer to the information provided in this [Google Colab Link](https://colab.research.google.com/drive/1tbP5miE-5DXXZ5507Rh9eMlLDCWi5L2y?usp=sharing)
+
 
 ## Dataset
 
@@ -18,12 +19,17 @@ The testing data (test.csv) consists of 40 event-related brain images correspond
 
 There are 22036 features in each brain image, corresponding to blood-oxygenation levels at each 2mm-cubed 3D location within a section of the auditory cortex. In human brain imaging, there are often many more features (brain sites) than samples (trials), thus making the task a relatively challenging multiway classification problem.
 
-## Model Architecture and Training
+## Deployed app:
+
+You can check the final deployment of our project on te link below: 
+
+🤖  Streamlit APP:  https://lewagon-final-project-jahknaubjpaybbvxcfy3uz.streamlit.app/
+
+## Collaborators
+
+- Jonathan [@Jojoooo1](https://github.com/Jojoooo1)
+
+- Lorena Melo [@lorenamelos](https://github.com/lorenamelos)
 
 
-## Results and Evaluation
-
-The evaluation metric for this competition is Accuracy.
-
-## Usage Instructions
 

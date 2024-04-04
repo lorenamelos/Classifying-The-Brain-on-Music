@@ -15,7 +15,7 @@ For more details regarding the tasks, including the dataset download, please ref
 
 ### Summary about development
 
-Under the project development we did some experimentations with PCA, XGBoost and OneVsRest, but at the end the logistic regression model was the best one for our dataset. 
+Under the project development we did some experimentations with **PCA, XGBoost and OneVsRest**, but at the end the logistic regression model was the best one for our dataset. 
 
 ## Dataset
 

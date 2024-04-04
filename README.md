@@ -4,6 +4,7 @@ This repository contains the final project for the Le Wagon Data Science & AI Bo
 
 ## Project Description
 
+### General Description
 The training data (train.csv) consist of 160 event-related brain images (trials), corresponding to twenty 6-second music clips, four clips in each of the five genres, repeated in-order eight times (runs). The labels (labels.csv) correspond to the correct musical genres, listed above, for each of the 160 trials.
 
 There are 22036 features in each brain image, corresponding to blood-oxygenation levels at each 2mm-cubed 3D location within a section of the auditory cortex. In human brain imaging, there are often many more features (brain sites) than samples (trials), thus making the task a relatively challenging multiway classification problem.
@@ -12,6 +13,9 @@ The testing data (test.csv) consists of 40 event-related brain images correspond
 
 For more details regarding the tasks, including the dataset download, please refer to the information provided in this [Google Colab Link](https://colab.research.google.com/drive/1tbP5miE-5DXXZ5507Rh9eMlLDCWi5L2y?usp=sharing)
 
+### Summary about development
+
+Under the project development we did some experimentations with PCA, XGBoost and OneVsRest, but at the end the logistic regression model was the best one for our dataset. 
 
 ## Dataset
 
